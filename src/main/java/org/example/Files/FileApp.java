@@ -14,16 +14,17 @@ public class FileApp {
 
     private final ArrayList<String> files = new ArrayList<>();
 
-    private DataStatistic dataStatistic = null;
+    private static DataStatistic dataStatistic = null;
 
     private final FilesReader filesReader = new FilesReader();
 
-    public DataStatistic getDataStatistic() {
+
+    public static DataStatistic getDataStatistic() {
         return dataStatistic;
     }
 
-    public void setDataStatistic(DataStatistic dataStatistic) {
-        this.dataStatistic = dataStatistic;
+    public static void setDataStatistic(DataStatistic dataStatistic) {
+        FileApp.dataStatistic = dataStatistic;
     }
 
 
@@ -64,6 +65,13 @@ public class FileApp {
         }
 
         filesReader.start(files);
+        if(dataStatistic == DataStatistic.SIMPLE){
+            FileSimpleDescription.printInfo();
+        }
+        if(dataStatistic == DataStatistic.FULL){
+            FileFullDescription.printInfo();
+        }
+
     }
 
     private void filesList(String[] args) {

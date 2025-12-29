@@ -1,5 +1,6 @@
 package org.example.Files;
 
+import org.example.Files.Enums.DataStatistic;
 import org.example.Files.Enums.FileType;
 
 import java.io.File;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class FilePrinter {
+
     private PrintWriter pw = null;
 
     private File file = null;
@@ -59,7 +61,7 @@ public class FilePrinter {
         canWrite = true;
     }
 
-    public void printLine(String line) throws IOException {
+    public <T> void printLine(T line) throws IOException {
         if (file == null) {
             createFile();
         }
@@ -68,6 +70,12 @@ public class FilePrinter {
         }
         try {
             pw.println(line);
+            if(FileApp.getDataStatistic() == DataStatistic.SIMPLE){
+                FileSimpleDescription.sendLineForStatistic(line);
+            }
+            else{
+                FileFullDescription.sendLineForStatistic(line);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

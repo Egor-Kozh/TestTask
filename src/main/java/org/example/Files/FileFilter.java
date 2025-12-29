@@ -12,6 +12,9 @@ public class FileFilter {
 
     private final FilePrinter filePrinterDouble = new FilePrinter(FileType.DOUBLE);
 
+    private Integer lineInt = null;
+
+    private Double lineDouble = null;
 
     public void filterLine(String line) throws IOException {
         if (line == null) {
@@ -25,10 +28,10 @@ public class FileFilter {
 
         switch (fileType) {
             case FileType.INT:
-                filePrinterInteger.printLine(line);
+                filePrinterInteger.printLine(lineInt);
                 break;
             case FileType.DOUBLE:
-                filePrinterDouble.printLine(line);
+                filePrinterDouble.printLine(lineDouble);
                 break;
             case FileType.STRING:
                 filePrinterString.printLine(line);
@@ -38,12 +41,12 @@ public class FileFilter {
 
     private FileType searchType(String line) {
         try {
-            Integer.parseInt(line);
+            lineInt = Integer.parseInt(line);
             return FileType.INT;
         } catch (NumberFormatException e) {
         }
         try {
-            Double.parseDouble(line);
+            lineDouble = Double.parseDouble(line);
             return FileType.DOUBLE;
         } catch (NumberFormatException e) {
         }
