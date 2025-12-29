@@ -22,7 +22,7 @@ public class FilePrinter {
 
     private static boolean fileAdditions = false;
 
-    public FilePrinter(FileType FILE_TYPE){
+    public FilePrinter(FileType FILE_TYPE) {
         this.FILE_TYPE = FILE_TYPE;
     }
 
@@ -42,7 +42,7 @@ public class FilePrinter {
         try {
             file = new File(filePath + filePrefix + FILE_TYPE.getFileName() + ".txt");
 
-            if(filePath != ""){
+            if (filePath != "") {
                 File parentDir = file.getParentFile();
                 parentDir.mkdirs();
             }
@@ -60,10 +60,10 @@ public class FilePrinter {
     }
 
     public void printLine(String line) throws IOException {
-        if(file == null){
+        if (file == null) {
             createFile();
         }
-        if(!canWrite){
+        if (!canWrite) {
             createWriteStream();
         }
         try {
@@ -73,12 +73,12 @@ public class FilePrinter {
         }
     }
 
-    public void closePrint(){
-        if(pw != null){
+    public void closePrint() {
+        if (pw != null) {
             pw.close();
             canWrite = false;
         }
-        if(!fileAdditions){
+        if (!fileAdditions) {
             fileAdditions = true;
         }
     }

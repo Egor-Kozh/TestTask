@@ -5,12 +5,16 @@ import org.example.Files.Enums.FileType;
 import java.io.IOException;
 
 public class FileFilter {
+
     private final FilePrinter filePrinterString = new FilePrinter(FileType.STRING);
+
     private final FilePrinter filePrinterInteger = new FilePrinter(FileType.INT);
+
     private final FilePrinter filePrinterDouble = new FilePrinter(FileType.DOUBLE);
 
+
     public void filterLine(String line) throws IOException {
-        if(line == null){
+        if (line == null) {
             filePrinterString.closePrint();
             filePrinterInteger.closePrint();
             filePrinterDouble.closePrint();
@@ -19,7 +23,7 @@ public class FileFilter {
 
         FileType fileType = searchType(line);
 
-        switch (fileType){
+        switch (fileType) {
             case FileType.INT:
                 filePrinterInteger.printLine(line);
                 break;
@@ -32,16 +36,16 @@ public class FileFilter {
         }
     }
 
-    private FileType searchType(String line){
-        try{
+    private FileType searchType(String line) {
+        try {
             Integer.parseInt(line);
             return FileType.INT;
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
         }
-        try{
+        try {
             Double.parseDouble(line);
             return FileType.DOUBLE;
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
         }
         return FileType.STRING;
     }

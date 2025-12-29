@@ -11,20 +11,21 @@ public class FilesReader {
 
     private final FileFilter fileFilter = new FileFilter();
 
+
     public void start(ArrayList<String> filesName) throws IOException {
-        for(int i = 0; i < filesName.size(); i++){
+        for (int i = 0; i < filesName.size(); i++) {
             try {
                 br = new BufferedReader(new FileReader(filesName.get(i)));
 
                 String line = "";
-                while (line != null){
+                while (line != null) {
                     line = br.readLine();
                     fileFilter.filterLine(line);
                 }
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
-            }finally {
+            } finally {
                 br.close();
             }
         }
