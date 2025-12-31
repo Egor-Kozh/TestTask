@@ -1,10 +1,7 @@
 package org.example.Files;
 
 import org.example.Files.Enums.DataStatistic;
-import org.example.Files.Supportive.FileInfo;
-import org.example.Files.Supportive.FileAdditions;
-import org.example.Files.Supportive.FilePathResult;
-import org.example.Files.Supportive.FilePrefix;
+import org.example.Files.Statistic.FileStatistic;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,62 +11,47 @@ public class FileApp {
 
     private final ArrayList<String> files = new ArrayList<>();
 
-    private static DataStatistic dataStatistic = null;
-
     private final FilesReader filesReader = new FilesReader();
 
-
-    public static DataStatistic getDataStatistic() {
-        return dataStatistic;
-    }
-
-    public static void setDataStatistic(DataStatistic dataStatistic) {
-        FileApp.dataStatistic = dataStatistic;
-    }
+    private final FileStatistic fileStatistic = FileStatistic.getInstance();
 
 
     public void start(String[] args) throws IOException {
         filesList(args);
-        for (String file : files) {
-            System.out.println(file);
-        }
         for (int i = 0; i < args.length - files.size(); i++) {
             switch (args[i]) {
                 case "-i":
                     FileInfo.printInfo();
                     return;
                 case "-o":
-                    FilePathResult.pathResult(args[i + 1]);
+                    FileCreator.setFilePath(args[i + 1]);
                     i++;
                     break;
                 case "-p":
-                    FilePrefix.filePrefix(args[i + 1]);
+                    FileCreator.setFilePrefix(args[i + 1]);
                     i++;
                     break;
                 case "-a":
-                    FileAdditions.fileAdditions();
+                        FileCreator.setFileAdditions(true);
                     break;
                 case "-s":
-                    if (getDataStatistic() != null) {
+                    if (fileStatistic.getDataStatistic() != null) {
                         System.out.println("ошибка!");
                     }
-                    setDataStatistic(DataStatistic.SIMPLE);
+                    fileStatistic.setDataStatistic(DataStatistic.SIMPLE);
                     break;
                 case "-f":
-                    if (getDataStatistic() != null) {
+                    if (fileStatistic.getDataStatistic() != null) {
                         System.out.println("ошибка!");
                     }
-                    setDataStatistic(DataStatistic.FULL);
+                    fileStatistic.setDataStatistic(DataStatistic.FULL);
                     break;
             }
         }
 
         filesReader.start(files);
-        if(dataStatistic == DataStatistic.SIMPLE){
-            FileSimpleDescription.printInfo();
-        }
-        if(dataStatistic == DataStatistic.FULL){
-            FileFullDescription.printInfo();
+        if(fileStatistic.getDataStatistic() != null){
+            fileStatistic.getStatistic();
         }
 
     }

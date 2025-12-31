@@ -1,7 +1,7 @@
 package org.example.Files;
 
-import org.example.Files.Enums.DataStatistic;
 import org.example.Files.Enums.FileType;
+import org.example.Files.Statistic.FileStatistic;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,67 +14,35 @@ public class FilePrinter {
 
     private File file = null;
 
+    private boolean isSendStatistic = true;
+
     private boolean canWrite = false;
 
-    private final FileType FILE_TYPE;
+    private  FileCreator fileCreator = null;
 
-    private static String filePath = "";
+    private final FileStatistic fileStatistic = FileStatistic.getInstance();
 
-    private static String filePrefix = "";
-
-    private static boolean fileAdditions = false;
 
     public FilePrinter(FileType FILE_TYPE) {
-        this.FILE_TYPE = FILE_TYPE;
-    }
-
-    public static void setFilePath(String filePath) {
-        FilePrinter.filePath = filePath;
-    }
-
-    public static void setFilePrefix(String filePrefix) {
-        FilePrinter.filePrefix = filePrefix;
-    }
-
-    public static void setFileAdditions(boolean fileAdditions) {
-        FilePrinter.fileAdditions = fileAdditions;
-    }
-
-    private void createFile() throws IOException {
-        try {
-            file = new File(filePath + filePrefix + FILE_TYPE.getFileName() + ".txt");
-
-            if (filePath != "") {
-                File parentDir = file.getParentFile();
-                parentDir.mkdirs();
-            }
-
-            createWriteStream();
-            canWrite = true;
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
+        fileCreator = new FileCreator(FILE_TYPE);
     }
 
     private void createWriteStream() throws IOException {
-        pw = new PrintWriter(new FileWriter(file, fileAdditions));
+        if(file == null){
+            file = fileCreator.createFile();
+        }
+        pw = new PrintWriter(new FileWriter(file, fileCreator.isFileAdditions()));
         canWrite = true;
     }
 
     public <T> void printLine(T line) throws IOException {
-        if (file == null) {
-            createFile();
-        }
         if (!canWrite) {
             createWriteStream();
         }
         try {
             pw.println(line);
-            if(FileApp.getDataStatistic() == DataStatistic.SIMPLE){
-                FileSimpleDescription.sendLineForStatistic(line);
-            }
-            else{
-                FileFullDescription.sendLineForStatistic(line);
+            if(isSendStatistic){
+                isSendStatistic = fileStatistic.sendLineForStatistic(line);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -86,8 +54,8 @@ public class FilePrinter {
             pw.close();
             canWrite = false;
         }
-        if (!fileAdditions) {
-            fileAdditions = true;
+        if (!fileCreator.isFileAdditions()) {
+            FileCreator.setFileAdditions(true);
         }
     }
 }

@@ -17,9 +17,13 @@ public class FilesReader {
             try {
                 br = new BufferedReader(new FileReader(filesName.get(i)));
 
-                String line = "";
-                while (line != null) {
+                String line;
+                while (true) {
                     line = br.readLine();
+                    if(line == null){
+                        fileFilter.closePrint();
+                        break;
+                    }
                     fileFilter.filterLine(line);
                 }
 
