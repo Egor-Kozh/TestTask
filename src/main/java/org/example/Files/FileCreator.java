@@ -3,7 +3,6 @@ package org.example.Files;
 import org.example.Files.Enums.FileType;
 
 import java.io.File;
-import java.io.IOException;
 
 public class FileCreator {
 
@@ -36,7 +35,7 @@ public class FileCreator {
     }
 
 
-    public File createFile() throws IOException {
+    public File createFile() {
         try {
             File file = new File(filePath + filePrefix + FILE_TYPE.getFileName() + ".txt");
 

@@ -4,11 +4,11 @@ public class StringSimpleStatistic {
 
     private static int countStrings = 0;
 
-    public void sendLineForStatistic(){
+    public void sendLineForStatistic() {
         countStrings++;
     }
 
-    public void stringStatistic(){
+    public void stringStatistic() {
         System.out.printf("Count strings: %d \n", countStrings);
     }
 }

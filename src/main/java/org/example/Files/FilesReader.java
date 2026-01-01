@@ -20,7 +20,7 @@ public class FilesReader {
                 String line;
                 while (true) {
                     line = br.readLine();
-                    if(line == null){
+                    if (line == null) {
                         fileFilter.closePrint();
                         break;
                     }

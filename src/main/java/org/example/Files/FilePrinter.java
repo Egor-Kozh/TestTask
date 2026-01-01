@@ -18,7 +18,7 @@ public class FilePrinter {
 
     private boolean canWrite = false;
 
-    private  FileCreator fileCreator = null;
+    private final FileCreator fileCreator;
 
     private final FileStatistic fileStatistic = FileStatistic.getInstance();
 
@@ -28,7 +28,7 @@ public class FilePrinter {
     }
 
     private void createWriteStream() throws IOException {
-        if(file == null){
+        if (file == null) {
             file = fileCreator.createFile();
         }
         pw = new PrintWriter(new FileWriter(file, fileCreator.isFileAdditions()));
@@ -41,7 +41,7 @@ public class FilePrinter {
         }
         try {
             pw.println(line);
-            if(isSendStatistic){
+            if (isSendStatistic) {
                 isSendStatistic = fileStatistic.sendLineForStatistic(line);
             }
         } catch (Exception e) {

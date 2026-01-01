@@ -7,26 +7,26 @@ public class StringFullStatistic {
     private int minString = 0;
 
 
-    public void sendLineForStatistic(String line){
+    public void sendLineForStatistic(String line) {
         countingString(line);
     }
 
-    private void countingString(String str){
+    private void countingString(String str) {
         countStrings++;
 
-        if(str.length() > maxString){
+        if (str.length() > maxString) {
             maxString = str.length();
         }
 
-        if(str.length() < minString || minString == 0){
+        if (str.length() < minString || minString == 0) {
             minString = str.length();
         }
     }
 
-    public void stringStatistic(){
+    public void stringStatistic() {
         System.out.println("==========string==========");
         System.out.printf("Count strings: %d \n", countStrings);
-        if(countStrings == 0){
+        if (countStrings == 0) {
             return;
         }
         System.out.printf("Max strings: %d \n", maxString);

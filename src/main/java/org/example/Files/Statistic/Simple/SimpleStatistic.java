@@ -9,18 +9,18 @@ public class SimpleStatistic {
     private final StringSimpleStatistic stringSimpleStatistic = new StringSimpleStatistic();
 
 
-    public void getSimpleStatistic(){
+    public void getSimpleStatistic() {
         integerSimpleStatistic.integerStatistic();
         doubleSimpleStatistic.doubleStatistic();
         stringSimpleStatistic.stringStatistic();
     }
 
-    public <T> void countStatistic(T line){
-        if(line instanceof Integer){
+    public <T> void countStatistic(T line) {
+        if (line instanceof Integer) {
             integerSimpleStatistic.sendLineForStatistic();
-        } else if (line instanceof  Double) {
+        } else if (line instanceof Double) {
             doubleSimpleStatistic.sendLineForStatistic();
-        }else{
+        } else {
             stringSimpleStatistic.sendLineForStatistic();
         }
     }

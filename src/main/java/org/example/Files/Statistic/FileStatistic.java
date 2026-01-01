@@ -17,8 +17,8 @@ public class FileStatistic {
     private FileStatistic() {
     }
 
-    public static FileStatistic getInstance(){
-        if(instance == null){
+    public static FileStatistic getInstance() {
+        if (instance == null) {
             instance = new FileStatistic();
         }
         return instance;
@@ -33,30 +33,30 @@ public class FileStatistic {
     }
 
 
-    public void getStatistic(){
+    public void getStatistic() {
         printInfo();
-        if(dataStatistic.equals(DataStatistic.FULL)){
+        if (dataStatistic.equals(DataStatistic.FULL)) {
             fullStatistic.getFullStatistic();
         } else if (dataStatistic.equals(DataStatistic.SIMPLE)) {
             simpleStatistic.getSimpleStatistic();
-        }else{
+        } else {
             throw new RuntimeException("Ошибка");
         }
     }
 
-    public <T> boolean sendLineForStatistic(T line){
-        if(dataStatistic.equals(DataStatistic.FULL)){
+    public <T> boolean sendLineForStatistic(T line) {
+        if (dataStatistic.equals(DataStatistic.FULL)) {
             fullStatistic.countStatistic(line);
             return true;
         } else if (dataStatistic.equals(DataStatistic.SIMPLE)) {
             simpleStatistic.countStatistic(line);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    private void printInfo(){
+    private void printInfo() {
         System.out.println("==========STATISTIC==========");
     }
 }

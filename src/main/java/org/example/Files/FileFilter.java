@@ -29,7 +29,7 @@ public class FileFilter {
         }
     }
 
-    public void closePrint(){
+    public void closePrint() {
         filePrinterString.closePrint();
         filePrinterInteger.closePrint();
         filePrinterDouble.closePrint();
