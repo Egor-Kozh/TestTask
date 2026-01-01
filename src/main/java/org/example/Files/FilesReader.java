@@ -24,6 +24,9 @@ public class FilesReader {
                         fileFilter.closePrint();
                         break;
                     }
+                    if(line.isEmpty()){
+                        continue;
+                    }
                     fileFilter.filterLine(line);
                 }
 
