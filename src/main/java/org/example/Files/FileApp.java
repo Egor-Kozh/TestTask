@@ -5,7 +5,9 @@ import org.example.Files.Enums.Options;
 import org.example.Files.Statistic.FileStatistic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class FileApp {
 
@@ -18,38 +20,35 @@ public class FileApp {
 
     public void start(String[] args) {
         try {
-            if(args.length == 1 && args[0].equals(Options.INFO.getOptionsCommand())){
+            if (args.length == 1 && args[0].equals(Options.INFO.getOptionsCommand())) {
                 FileInfo.printInfo();
                 return;
             }
-            filesList(args);
-            for (int i = 0; i < args.length - files.size(); i++) {
-                if (args[i].equals(Options.INFO.getOptionsCommand())){
+
+            String[] options = filesList(args);
+            for (int i = 0; i < options.length; i++) {
+                if (args[i].equals(Options.INFO.getOptionsCommand())) {
                     FileInfo.printInfo();
                     break;
                 } else if (args[i].equals(Options.FILE_PATH.getOptionsCommand())) {
-                    CheckArguments.check(args, i, Options.FILE_PATH);
+                    CheckArguments.check(options, i, Options.FILE_PATH);
                     FileCreator.setFilePath(args[i + 1]);
                     i++;
                 } else if (args[i].equals(Options.FILE_NAME.getOptionsCommand())) {
-                    CheckArguments.check(args, i, Options.FILE_NAME);
+                    CheckArguments.check(options, i, Options.FILE_NAME);
                     FileCreator.setFilePrefix(args[i + 1]);
                     i++;
-                } else if (args[i].equals(Options.FILE_ADDITIOS.getOptionsCommand())) {
+                } else if (args[i].equals(Options.FILE_ADDITIONS.getOptionsCommand())) {
+                    CheckArguments.check(options, i, Options.FILE_ADDITIONS);
                     FileCreator.setFileAdditions(true);
                 } else if (args[i].equals(Options.FILE_SIMPLE_STATISTIC.getOptionsCommand())) {
-                    if (fileStatistic.getDataStatistic() != null) {
-                        throw new RuntimeException("Метод для статичтики должен быть 1!");
-                    }
+                    CheckArguments.check(options, i, Options.FILE_SIMPLE_STATISTIC);
                     fileStatistic.setDataStatistic(DataStatistic.SIMPLE);
-                }
-                else if (args[i].equals(Options.FILE_FULL_STATISTIC.getOptionsCommand())) {
-                    if (fileStatistic.getDataStatistic() != null) {
-                        throw new RuntimeException("Метод для статичтики должен быть 1!");
-                    }
+                } else if (args[i].equals(Options.FILE_FULL_STATISTIC.getOptionsCommand())) {
+                    CheckArguments.check(options, i, Options.FILE_FULL_STATISTIC);
                     fileStatistic.setDataStatistic(DataStatistic.FULL);
-                }else {
-                    throw new RuntimeException("Не существующая опция! Используйте -i для информации!");
+                } else {
+                    throw new RuntimeException(String.format("Не существующая опция %s! Используйте -i для информации!", options[i]));
                 }
             }
 
@@ -63,10 +62,13 @@ public class FileApp {
 
     }
 
-    private void filesList(String[] args) throws RuntimeException {
+    private String[] filesList(String[] args) throws RuntimeException {
+        List<String> options = new ArrayList<>(Arrays.asList(args.clone()));
+
         for (int i = args.length - 1; i >= 0; i--) {
             if (args[i].endsWith(".txt")) {
                 files.add(args[i]);
+                options.removeLast();
             } else {
                 break;
             }
@@ -77,5 +79,7 @@ public class FileApp {
         }
 
         Collections.reverse(files);
+
+        return options.toArray(new String[0]);
     }
 }

@@ -45,6 +45,9 @@ public class FileStatistic {
     }
 
     public <T> boolean sendLineForStatistic(T line) {
+        if(dataStatistic == null){
+            return false;
+        }
         if (dataStatistic.equals(DataStatistic.FULL)) {
             fullStatistic.countStatistic(line);
             return true;
